@@ -11,7 +11,7 @@
         <key>CFBundleName</key>
         <string>Virt Server</string>
         <key>CFBundleShortVersionString</key>
-        <string>0.4.2</string>
+        <string>0.5</string>
         <key>CFBundleDevelopmentRegion</key>
         <string>English</string>
         <key>JVMMainClassName</key>

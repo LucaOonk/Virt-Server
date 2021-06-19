@@ -31,6 +31,8 @@ public class Launcher{
 
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(context.port), 0);
+            System.out.println("[INITIALIZED] Running on Port: "+context.port);
+
             server.createContext("/vm/details", new VMDetailHandler());
             server.createContext("/vm", new VMControlHandler());
             server.createContext("/list", new VMListHandler());
@@ -53,7 +55,6 @@ public class Launcher{
 
         // Process process = Runtime.getRuntime().exec("brew install qemu gcc libvirt");
 
-        System.out.println("[INITIALIZED]");
 
         
     }

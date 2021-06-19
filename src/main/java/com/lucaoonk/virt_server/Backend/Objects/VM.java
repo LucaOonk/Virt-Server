@@ -121,7 +121,7 @@ public class VM {
         String disksString = "";
         int amountOfDisks = 0;
         for (Device dev : this.getDevices()) {
-            if(dev.getClass().getName().equals("com.lucaoonk.virsh_gui.Backend.Objects.Disk")){
+            if(dev.getClass().getName().equals("com.lucaoonk.virt_server.Backend.Objects.Disk")){
                 amountOfDisks+=1;
                 Disk disk = (Disk) dev;
                 disksString+= disk.device + ":"+"<br>"+"&nbsp;Location: "+ disk.source + "<br>&nbsp;Type: "+ disk.driver + "<br><br>";

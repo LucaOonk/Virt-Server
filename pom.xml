@@ -5,7 +5,7 @@
   <groupId>com.lucaoonk.Virt_Server</groupId>
   <artifactId>Virt_Server</artifactId>
   <packaging>jar</packaging>
-  <version>0.4.2</version>
+  <version>0.5</version>
   <name>Virt_Server</name>
   <url>http://maven.apache.org</url>
 
