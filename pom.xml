@@ -2,11 +2,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.lucaoonk.virsh_gui</groupId>
-  <artifactId>virsh_gui</artifactId>
+  <groupId>com.lucaoonk.Virt_Server</groupId>
+  <artifactId>Virt_Server</artifactId>
   <packaging>jar</packaging>
-  <version>0.4.1</version>
-  <name>virsh_gui</name>
+  <version>0.4.2</version>
+  <name>Virt_Server</name>
   <url>http://maven.apache.org</url>
 
   
@@ -55,10 +55,10 @@
             </descriptorRefs>
             <archive>
               <manifest>
-                <mainClass>com.lucaoonk.virsh_gui.Launcher</mainClass>
+                <mainClass>com.lucaoonk.virt_server.Launcher</mainClass>
               </manifest>
             </archive>
-            <finalName>virsh_gui</finalName>
+            <finalName>Virt_Server</finalName>
             <appendAssemblyId>false</appendAssemblyId>
           </configuration>
           <executions>
@@ -77,10 +77,9 @@
 	    <version>1.10.2</version>
 	    <configuration>
 		  <plist>
-			  <CFBundleIconFile>icon.icns</CFBundleIconFile>
-			  <CFBundleDisplayName>Virsh GUI</CFBundleDisplayName>
-			  <CFBundleName>Virsh GUI</CFBundleName>
-			  <JVMMainClassName>com.lucaoonk.virsh_gui.Launcher</JVMMainClassName>
+			  <CFBundleDisplayName>Virt Server</CFBundleDisplayName>
+			  <CFBundleName>Virt Server</CFBundleName>
+			  <JVMMainClassName>com.lucaoonk.virt_server.Launcher</JVMMainClassName>
         <NSHighResolutionCapable>true</NSHighResolutionCapable>
 		  </plist>
 		  <dmg>

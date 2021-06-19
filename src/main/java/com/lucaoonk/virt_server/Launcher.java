@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
+import com.lucaoonk.virt_server.Backend.Settings;
 import com.lucaoonk.virt_server.Backend.Objects.Context;
 import com.lucaoonk.virt_server.Backend.Objects.VM;
 import com.lucaoonk.virt_server.Backend.Processors.VMListJson;
@@ -21,20 +22,28 @@ import com.sun.net.httpserver.HttpServer;
 
 
 public class Launcher{
-
-    private static final int PORT = 8000;
     
     public static void main(String[] args) throws Exception {
         init();
+        Context context = new Context();
+        Settings.readSettingsFile(context);
+        Settings.writeSettings(context);
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), 0);
-        server.createContext("/vm/details", new VMDetailHandler());
-        server.createContext("/vm", new VMControlHandler());
-        server.createContext("/list", new VMListHandler());
-        server.createContext("/", new RootHandler());
+        try {
+            HttpServer server = HttpServer.create(new InetSocketAddress(context.port), 0);
+            server.createContext("/vm/details", new VMDetailHandler());
+            server.createContext("/vm", new VMControlHandler());
+            server.createContext("/list", new VMListHandler());
+            server.createContext("/", new RootHandler());
+    
+            server.setExecutor(null); // creates a default executor
+            server.start();
+        } catch (Exception e) {
+            System.out.println("[ERROR] Port Already in use");
 
-        server.setExecutor(null); // creates a default executor
-        server.start();
+            System.exit(1);
+        }
+
     }
 
     private static void init(){

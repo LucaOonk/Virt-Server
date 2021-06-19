@@ -10,7 +10,7 @@ public class Context {
     private ArrayList<VM> vmList;
     private VM currentSelectedVM;
     public String defaultSaveLocation;
-    private static final String versionString = "0.4.1";
+    private static final String versionString = "0.5";
     public Boolean checkForUpdates;
     private String applicationDefaultSaveLocation;
     public Integer windowHeight;
@@ -18,6 +18,7 @@ public class Context {
     public boolean autoSizeWindow;
     public boolean autoRefresh;
     public long autoRefreshRate;
+    public int port;
 
 
     public Context(){
@@ -27,6 +28,7 @@ public class Context {
     }
 
     private void initDefaults(){
+        this.port = 8000;
         this.checkForUpdates = true;
         this.defaultSaveLocation=System.getProperty("user.home")+"/vms/";
         this.applicationDefaultSaveLocation=System.getProperty("user.home")+"/vms/";
