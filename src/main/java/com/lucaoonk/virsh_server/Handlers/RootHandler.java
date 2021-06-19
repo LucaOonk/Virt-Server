@@ -11,7 +11,7 @@ public class RootHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String response = "<html><h1>Virsh Server</h1></html>";
+        String response = "<html><h1>Virt Server</h1></html>";
 
         exchange.sendResponseHeaders(200, response.length());
         OutputStream os = exchange.getResponseBody();
