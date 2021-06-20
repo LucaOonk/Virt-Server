@@ -28,6 +28,8 @@ Releases can be found here: https://github.com/LucaOonk/Virsh-Gui/releases
 
 # Planned features:
 - Extend functionality
+- GUI window with output
+- Increased security 
 
 # Known Issues:
 
