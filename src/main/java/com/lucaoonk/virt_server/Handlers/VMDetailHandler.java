@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.lucaoonk.virt_server.Backend.Terminal;
 import com.lucaoonk.virt_server.Backend.Objects.VM;
 import com.lucaoonk.virt_server.Backend.Objects.VMDetailsRequest;
 import com.lucaoonk.virt_server.Backend.Processors.VMDOMProcessor;
@@ -20,7 +21,9 @@ public class VMDetailHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        Long timer = System.currentTimeMillis();
 
+        
         InputStreamReader isr =  new InputStreamReader(exchange.getRequestBody(),"utf-8");
         BufferedReader br = new BufferedReader(isr);
         Gson g = new Gson();
@@ -35,14 +38,23 @@ public class VMDetailHandler implements HttpHandler {
 
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
+
             os.write(response.getBytes());
             os.close();
+
+            Long timeElapsed = (System.currentTimeMillis()- timer);
+            System.out.println(Terminal.colorText("[INFO] "+timeElapsed+"ms: "+Terminal.getTime()+" Machine details request: "+obj.name, Terminal.ANSI_BLUE));
+
         } catch (Exception e) {
             String response = "Something went wrong";
+
+
             exchange.sendResponseHeaders(200, response.length());
             OutputStream os = exchange.getResponseBody();
             os.write(response.getBytes());
             os.close();       
+            Long timeElapsed = (System.currentTimeMillis()- timer);
+            System.out.println(Terminal.colorText("[ERROR] "+timeElapsed+"ms: "+Terminal.getTime()+" Something went wrong while getting machine details: "+obj.name, Terminal.ANSI_RED));
             e.printStackTrace();
  
         }

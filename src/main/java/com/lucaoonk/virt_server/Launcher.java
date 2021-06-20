@@ -8,6 +8,7 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
 import com.lucaoonk.virt_server.Backend.Settings;
+import com.lucaoonk.virt_server.Backend.Terminal;
 import com.lucaoonk.virt_server.Backend.Objects.Context;
 import com.lucaoonk.virt_server.Backend.Objects.VM;
 import com.lucaoonk.virt_server.Backend.Processors.VMListJson;
@@ -31,7 +32,7 @@ public class Launcher{
 
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(context.port), 0);
-            System.out.println("[INITIALIZED] Running on Port: "+context.port);
+            System.out.println(Terminal.colorText("[INITIALIZED] "+Terminal.getTime()+" Running on Port: "+context.port, Terminal.ANSI_GREEN));
 
             server.createContext("/vm/details", new VMDetailHandler());
             server.createContext("/vm", new VMControlHandler());
@@ -41,7 +42,7 @@ public class Launcher{
             server.setExecutor(null); // creates a default executor
             server.start();
         } catch (Exception e) {
-            System.out.println("[ERROR] Port Already in use");
+            System.out.println(Terminal.colorText("[ERROR] "+Terminal.getTime()+" Port Already in use", Terminal.ANSI_RED));
 
             System.exit(1);
         }
