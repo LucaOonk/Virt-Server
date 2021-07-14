@@ -25,8 +25,14 @@ import com.sun.net.httpserver.HttpServer;
 public class Launcher{
     
     public static void main(String[] args) throws Exception {
-        init();
         Context context = new Context();
+        context.loadingIsDone=false;
+        context.loadingStatus="Initializing & Checking dependencies";
+        LoadingScreen loadingScreen = new LoadingScreen();
+        loadingScreen.showLoadingScreen(context);
+        init();
+
+        context.loadingStatus="Reading Settings...";
         Settings.readSettingsFile(context);
         Settings.writeSettings(context);
 
@@ -41,6 +47,7 @@ public class Launcher{
     
             server.setExecutor(null); // creates a default executor
             server.start();
+            context.loadingIsDone = true;
         } catch (Exception e) {
             System.out.println(Terminal.colorText("[ERROR] "+Terminal.getTime()+" Port Already in use", Terminal.ANSI_RED));
 

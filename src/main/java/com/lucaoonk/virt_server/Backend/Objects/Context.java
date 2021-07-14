@@ -19,6 +19,8 @@ public class Context {
     public boolean autoRefresh;
     public long autoRefreshRate;
     public int port;
+    public boolean loadingIsDone;
+    public String loadingStatus;
 
 
     public Context(){
