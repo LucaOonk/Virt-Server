@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.lucaoonk.virt_server.Backend.Terminal;
+import com.lucaoonk.virt_server.Backend.Objects.Context;
 import com.lucaoonk.virt_server.Backend.Objects.VM;
 import com.lucaoonk.virt_server.Backend.Objects.VMDetailsRequest;
 import com.lucaoonk.virt_server.Backend.Processors.VMDOMProcessor;
@@ -18,6 +19,12 @@ import com.sun.net.httpserver.HttpHandler;
 import org.json.simple.JSONObject;
 
 public class VMDetailHandler implements HttpHandler {
+
+    private Context context;
+
+    public VMDetailHandler(Context context){
+        this.context = context;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -43,6 +50,14 @@ public class VMDetailHandler implements HttpHandler {
             os.close();
 
             Long timeElapsed = (System.currentTimeMillis()- timer);
+
+            if(context.show_gui){
+                context.textArea.append("[INFO] "+timeElapsed+"ms: "+Terminal.getTime()+" Machine details request: "+obj.name+"\n");
+                context.scrollToBottom();
+
+            }
+            context.addRequestTime(timeElapsed);
+
             System.out.println(Terminal.colorText("[INFO] "+timeElapsed+"ms: "+Terminal.getTime()+" Machine details request: "+obj.name, Terminal.ANSI_BLUE));
 
         } catch (Exception e) {
@@ -54,6 +69,13 @@ public class VMDetailHandler implements HttpHandler {
             os.write(response.getBytes());
             os.close();       
             Long timeElapsed = (System.currentTimeMillis()- timer);
+            if(context.show_gui){
+                context.textArea.append("[ERROR] "+timeElapsed+"ms: "+Terminal.getTime()+" Something went wrong while getting machine details: "+obj.name+"\n");
+                context.scrollToBottom();
+
+            }
+            context.addRequestTime(timeElapsed);
+
             System.out.println(Terminal.colorText("[ERROR] "+timeElapsed+"ms: "+Terminal.getTime()+" Something went wrong while getting machine details: "+obj.name, Terminal.ANSI_RED));
             e.printStackTrace();
  

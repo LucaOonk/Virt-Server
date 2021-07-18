@@ -49,6 +49,9 @@ public class Settings {
                     if(entry.getKey().equals("port")){
                         context.port = ((Double) entry.getValue()).intValue();
                     }
+                    if(entry.getKey().equals("show_gui")){
+                        context.show_gui = (boolean) entry.getValue();
+                    }
                 }
             
                 // close reader
@@ -71,6 +74,7 @@ public class Settings {
         
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", context.port);
+        jsonObject.put("show_gui", context.show_gui);
 
         File location = new File(settingsFileLocation);
         location.getParentFile().mkdirs();
