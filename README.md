@@ -1,5 +1,5 @@
 # Virt-Server
-A server for Virt Commander made in Java so you can start, stop, add, remove to virsh and connect to them from another machine.
+A server for Virt Commander (https://github.com/LucaOonk/Virt-Commander) made in Java so you can start, stop, add, remove to virsh and connect to them from another machine.
 
 This is far from production ready so be ware.
 
@@ -24,11 +24,10 @@ Since macOS doesn't support QEMU security features, we need to disable them:
 Finally start the libvirt service, with `brew services start libvirt`. It will start after boot as well.
 
 # Download:
-Releases can be found here: https://github.com/LucaOonk/Virsh-Gui/releases
+Releases can be found here: https://github.com/LucaOonk/Virt-Server/releases
 
 # Planned features:
 - Extend functionality
-- GUI window with output
 - Increased security 
 
 # Known Issues:

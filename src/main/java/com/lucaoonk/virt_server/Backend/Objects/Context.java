@@ -18,7 +18,7 @@ public class Context {
     private ArrayList<VM> vmList;
     private VM currentSelectedVM;
     public String defaultSaveLocation;
-    private static final String versionString = "0.5.1";
+    private static final String versionString = "0.5.2";
     public Boolean checkForUpdates;
     private String applicationDefaultSaveLocation;
     public Integer windowHeight;
@@ -37,6 +37,9 @@ public class Context {
         JScrollBar vertical = this.scrollPanel.getVerticalScrollBar();
         vertical.setValue( vertical.getMaximum() );
     }
+    public boolean loadingIsDone;
+    public String loadingStatus;
+
 
     public Context(){
         initDefaults();
