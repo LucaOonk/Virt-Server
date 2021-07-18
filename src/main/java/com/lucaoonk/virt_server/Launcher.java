@@ -1,18 +1,22 @@
 package com.lucaoonk.virt_server;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 import com.lucaoonk.virt_server.Backend.Settings;
 import com.lucaoonk.virt_server.Backend.Terminal;
 import com.lucaoonk.virt_server.Backend.Objects.Context;
-import com.lucaoonk.virt_server.Backend.Objects.VM;
-import com.lucaoonk.virt_server.Backend.Processors.VMListJson;
-import com.lucaoonk.virt_server.Backend.Processors.VMListProcessor;
 import com.lucaoonk.virt_server.Handlers.RootHandler;
 import com.lucaoonk.virt_server.Handlers.VMControlHandler;
 import com.lucaoonk.virt_server.Handlers.VMDetailHandler;
@@ -23,29 +27,78 @@ import com.sun.net.httpserver.HttpServer;
 
 
 public class Launcher{
-    
+    private JPanel statsPanel;
+
     public static void main(String[] args) throws Exception {
         init();
         Context context = new Context();
+
         Settings.readSettingsFile(context);
+
+        // if(context.checkForUpdates){
+        //     UpdateChecker update = new UpdateChecker(context);
+        //     update.isNewewVersionAvailable();
+        // }
+
         Settings.writeSettings(context);
+
+        if(context.show_gui){
+            System.out.println(Terminal.colorText("[INITIALIZING] "+Terminal.getTime()+" Show Gui set, initializing Gui", Terminal.ANSI_GREEN));
+
+            initGui(context);
+        }else{
+            System.out.println(Terminal.colorText("[INITIALIZING] "+Terminal.getTime()+" Show Gui not set, running headless", Terminal.ANSI_GREEN));
+
+        }
 
         try {
             HttpServer server = HttpServer.create(new InetSocketAddress(context.port), 0);
             System.out.println(Terminal.colorText("[INITIALIZED] "+Terminal.getTime()+" Running on Port: "+context.port, Terminal.ANSI_GREEN));
-
-            server.createContext("/vm/details", new VMDetailHandler());
-            server.createContext("/vm", new VMControlHandler());
-            server.createContext("/list", new VMListHandler());
-            server.createContext("/", new RootHandler());
+            if(context.show_gui){
+                context.textArea.append("[INITIALIZED] "+Terminal.getTime()+" Running on Port: "+context.port+"\n");
+            }
+            server.createContext("/vm/details", new VMDetailHandler(context));
+            server.createContext("/vm", new VMControlHandler(context));
+            server.createContext("/list", new VMListHandler(context));
+            server.createContext("/", new RootHandler(context));
     
             server.setExecutor(null); // creates a default executor
             server.start();
         } catch (Exception e) {
+            if(context.show_gui){
+                context.textArea.append("[ERROR] "+Terminal.getTime()+" Port Already in use"+"\n");
+            }
             System.out.println(Terminal.colorText("[ERROR] "+Terminal.getTime()+" Port Already in use", Terminal.ANSI_RED));
 
             System.exit(1);
         }
+
+    }
+
+    private static void initGui(Context context){
+        JFrame frame = new JFrame();
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        context.frame = frame;
+        frame.setSize(600,300);
+        context.textArea = new JTextArea();
+        context.scrollPanel = new JScrollPane();
+        context.textArea.setSize(new Dimension(600, 400));
+        context.scrollPanel.setViewportView(context.textArea);
+        context.textArea.setEditable(false);
+        context.textArea.setAutoscrolls(true);
+        context.scrollPanel.setAutoscrolls(true);
+        // context.textArea.setBackground(Color.BLACK);
+
+        mainPanel.add(context.scrollPanel, BorderLayout.CENTER);
+        // mainPanel.add(statisticsPanel(), BorderLayout.SOUTH);
+
+        context.textArea.setLineWrap(true);
+        frame.setTitle("Virt Server Console");
+        frame.setLocationRelativeTo(null);
+        frame.add(mainPanel);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     }
 
@@ -56,9 +109,18 @@ public class Launcher{
 
         // Process process = Runtime.getRuntime().exec("brew install qemu gcc libvirt");
 
-
-        
     }
+
+
+
+    // private static JPanel statisticsPanel(){
+    //     JPanel panel = new JPanel();
+        
+    //     panel.add(new JLabel(c));
+
+
+    //     return panel;
+    // }
 
     private static void checkRequired() {
         Process process;
