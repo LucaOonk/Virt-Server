@@ -1,0 +1,51 @@
+target/.DS_Store
+target/Virt_Server-0.5.2.jar
+target/Virt_Server.jar
+target/Virt Server.app/Contents/Info.plist
+target/Virt Server.app/Contents/Java/classpath/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar
+target/Virt Server.app/Contents/Java/classpath/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar
+target/Virt Server.app/Contents/Java/classpath/com/konghq/unirest-java/4.0.0-RC1/unirest-java-4.0.0-RC1.jar
+target/Virt Server.app/Contents/Java/classpath/com/lucaoonk/Virt_Server/Virt_Server/0.5.2/Virt_Server-0.5.2.jar
+target/Virt Server.app/Contents/Java/classpath/com/madgag/animated-gif-lib/1.4/animated-gif-lib-1.4.jar
+target/Virt Server.app/Contents/Java/classpath/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
+target/Virt Server.app/Contents/Java/classpath/de/erichseifert/vectorgraphics2d/VectorGraphics2D/0.13/VectorGraphics2D-0.13.jar
+target/Virt Server.app/Contents/Java/classpath/de/rototor/pdfbox/graphics2d/0.30/graphics2d-0.30.jar
+target/Virt Server.app/Contents/Java/classpath/junit/junit/4.10/junit-4.10.jar
+target/Virt Server.app/Contents/Java/classpath/org/apache/pdfbox/fontbox/2.0.22/fontbox-2.0.22.jar
+target/Virt Server.app/Contents/Java/classpath/org/apache/pdfbox/pdfbox/2.0.22/pdfbox-2.0.22.jar
+target/Virt Server.app/Contents/Java/classpath/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar
+target/Virt Server.app/Contents/Java/classpath/org/knowm/xchart/xchart/3.8.0/xchart-3.8.0.jar
+target/Virt Server.app/Contents/MacOS/JavaLauncher
+target/classes/.DS_Store
+target/classes/com/.DS_Store
+target/classes/com/lucaoonk/.DS_Store
+target/classes/com/lucaoonk/virt_server/.DS_Store
+target/classes/com/lucaoonk/virt_server/Launcher.class
+target/classes/com/lucaoonk/virt_server/Launcher$MyHandler.class
+target/classes/com/lucaoonk/virt_server/LoadingScreen.class
+target/classes/com/lucaoonk/virt_server/Backend/.DS_Store
+target/classes/com/lucaoonk/virt_server/Backend/LoadingScreenThread.class
+target/classes/com/lucaoonk/virt_server/Backend/Settings.class
+target/classes/com/lucaoonk/virt_server/Backend/Terminal.class
+target/classes/com/lucaoonk/virt_server/Backend/Terminal$Color.class
+target/classes/com/lucaoonk/virt_server/Backend/UpdateChecker.class
+target/classes/com/lucaoonk/virt_server/Backend/VMController.class
+target/classes/com/lucaoonk/virt_server/Backend/VMController$1.class
+target/classes/com/lucaoonk/virt_server/Backend/VMController$2.class
+target/classes/com/lucaoonk/virt_server/Backend/VMController$3.class
+target/classes/com/lucaoonk/virt_server/Backend/VMController$4.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/Context.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/Device.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/Disk.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/VM.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/VMActionObject.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/VMDetailsRequest.class
+target/classes/com/lucaoonk/virt_server/Backend/Objects/VMDOMProcessorThread.class
+target/classes/com/lucaoonk/virt_server/Backend/Processors/VMDOMProcessor.class
+target/classes/com/lucaoonk/virt_server/Backend/Processors/VMListJson.class
+target/classes/com/lucaoonk/virt_server/Backend/Processors/VMListProcessor.class
+target/classes/com/lucaoonk/virt_server/Handlers/RootHandler.class
+target/classes/com/lucaoonk/virt_server/Handlers/VMControlHandler.class
+target/classes/com/lucaoonk/virt_server/Handlers/VMDetailHandler.class
+target/classes/com/lucaoonk/virt_server/Handlers/VMListHandler.class
+target/maven-archiver/pom.properties
