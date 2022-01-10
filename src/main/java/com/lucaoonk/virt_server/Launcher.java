@@ -17,6 +17,7 @@ import javax.swing.WindowConstants;
 import com.lucaoonk.virt_server.Backend.Settings;
 import com.lucaoonk.virt_server.Backend.Terminal;
 import com.lucaoonk.virt_server.Backend.Objects.Context;
+import com.lucaoonk.virt_server.Handlers.HTTPAuthenticationHandler;
 import com.lucaoonk.virt_server.Handlers.RootHandler;
 import com.lucaoonk.virt_server.Handlers.VMControlHandler;
 import com.lucaoonk.virt_server.Handlers.VMDetailHandler;
@@ -35,10 +36,15 @@ public class Launcher{
         context.loadingStatus="Initializing & Checking dependencies";
         LoadingScreen loadingScreen = new LoadingScreen();
         loadingScreen.showLoadingScreen(context);
-        init();
 
         context.loadingStatus="Reading Settings...";
         Settings.readSettingsFile(context);
+
+        if(!context.skip_init){
+            init();
+        }
+
+
 
         // if(context.checkForUpdates){
         //     UpdateChecker update = new UpdateChecker(context);
@@ -62,6 +68,25 @@ public class Launcher{
             if(context.show_gui){
                 context.textArea.append("[INITIALIZED] "+Terminal.getTime()+" Running on Port: "+context.port+"\n");
             }
+
+            if(!context.customHTTPAuth && context.enable_http_auth){
+                context.httpAuthenticationHandler = new HTTPAuthenticationHandler(context);
+                context.httpAuthenticationHandler.generateNewRandomAuthentication();
+                
+                context.textArea.append("[INITIALIZED] "+Terminal.getTime()+" Generated new HTTPAuthentication: "+context.getHTTPAuth()+"\n");
+                System.out.println(Terminal.colorText("[INITIALIZED] "+Terminal.getTime()+" Generated new HTTPAuthentication: "+context.getHTTPAuth(), Terminal.ANSI_GREEN));
+
+
+            }else{
+    
+                if(context.customHTTPAuth && context.enable_http_auth){
+                    context.httpAuthenticationHandler = new HTTPAuthenticationHandler(context);
+                    context.textArea.append("[INITIALIZED] "+Terminal.getTime()+" HTTPAuthentication: "+context.getHTTPAuth()+"\n");
+                    System.out.println(Terminal.colorText("[INITIALIZED] "+Terminal.getTime()+" HTTPAuthentication: "+context.getHTTPAuth(), Terminal.ANSI_GREEN));
+
+                }
+            }
+
             server.createContext("/vm/details", new VMDetailHandler(context));
             server.createContext("/vm", new VMControlHandler(context));
             server.createContext("/list", new VMListHandler(context));

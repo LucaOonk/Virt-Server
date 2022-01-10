@@ -23,6 +23,13 @@ public class VMListHandler implements HttpHandler {
         public void handle(HttpExchange exchange) throws IOException {
             Long timer = System.currentTimeMillis();
 
+            String requestAuthenticationHeader = "";
+            if(exchange.getRequestHeaders().containsKey("Authentication")){
+                requestAuthenticationHeader = exchange.getRequestHeaders().get("Authentication").get(0).toString();
+            }
+
+            if(requestAuthenticationHeader.equals(context.getHTTPAuth()) || !context.enable_http_auth){
+            
             InputStreamReader isr =  new InputStreamReader(exchange.getRequestBody(),"utf-8");
             BufferedReader br = new BufferedReader(isr);
             String value = br.readLine();
@@ -66,5 +73,11 @@ public class VMListHandler implements HttpHandler {
 
                 System.out.println(e.getStackTrace());
             }            
+        }else{
+            context.textArea.append("[INFO] "+Terminal.getTime()+" Access Denied request \n");
+
+            HTTPAuthenticationHandler.returnAccessDeniedPage(exchange);
         }
+
+    }
 }

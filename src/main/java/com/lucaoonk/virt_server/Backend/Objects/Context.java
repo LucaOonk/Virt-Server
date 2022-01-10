@@ -10,6 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import com.lucaoonk.virt_server.Backend.Processors.VMListProcessor;
+import com.lucaoonk.virt_server.Handlers.HTTPAuthenticationHandler;
 
 public class Context {
     
@@ -18,7 +19,7 @@ public class Context {
     private ArrayList<VM> vmList;
     private VM currentSelectedVM;
     public String defaultSaveLocation;
-    private static final String versionString = "0.5.2";
+    private static final String versionString = "0.5.4";
     public Boolean checkForUpdates;
     private String applicationDefaultSaveLocation;
     public Integer windowHeight;
@@ -26,8 +27,16 @@ public class Context {
     public boolean autoSizeWindow;
     public boolean autoRefresh;
     public long autoRefreshRate;
+    public HTTPAuthenticationHandler httpAuthenticationHandler;
+
+    //Settings
     public int port;
     public boolean show_gui;
+    public boolean skip_init;
+    private String httpAuth;
+    public boolean enable_http_auth;
+    public boolean customHTTPAuth;
+
     public JFrame frame;
     public JTextArea textArea;
     public JScrollPane scrollPanel;
@@ -50,6 +59,9 @@ public class Context {
     private void initDefaults(){
         this.port = 8000;
         this.show_gui = false;
+        this.skip_init = false;
+        this.enable_http_auth = true;
+        this.customHTTPAuth = false;
         this.requestTimes = new ArrayList<Long>();
         this.checkForUpdates = true;
         this.defaultSaveLocation=System.getProperty("user.home")+"/vms/";
@@ -112,6 +124,16 @@ public class Context {
 
             return defaultSaveLocation;
         }
+
+    }
+
+    public String getHTTPAuth(){
+        return this.httpAuth;
+    }
+
+    public void setHTTPAuth(String httpAuth){
+        
+        this.httpAuth = httpAuth;
 
     }
 }

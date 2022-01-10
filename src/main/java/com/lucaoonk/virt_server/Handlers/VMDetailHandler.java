@@ -22,80 +22,97 @@ public class VMDetailHandler implements HttpHandler {
 
     private Context context;
 
-    public VMDetailHandler(Context context){
+    public VMDetailHandler(Context context) {
         this.context = context;
     }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+
         Long timer = System.currentTimeMillis();
 
-        
-        InputStreamReader isr =  new InputStreamReader(exchange.getRequestBody(),"utf-8");
-        BufferedReader br = new BufferedReader(isr);
-        Gson g = new Gson();
-        String value = br.readLine();
-        VMDetailsRequest obj = g.fromJson(value, VMDetailsRequest.class);
-
-        VM vm = new VM(obj.name);
-        try {
-            VMDOMProcessor.getDetails(vm);
-            checkVMState(vm);
-            String response = g.toJson(vm);
-
-            exchange.sendResponseHeaders(200, response.length());
-            OutputStream os = exchange.getResponseBody();
-
-            os.write(response.getBytes());
-            os.close();
-
-            Long timeElapsed = (System.currentTimeMillis()- timer);
-
-            if(context.show_gui){
-                context.textArea.append("[INFO] "+timeElapsed+"ms: "+Terminal.getTime()+" Machine details request: "+obj.name+"\n");
-                context.scrollToBottom();
-
-            }
-            context.addRequestTime(timeElapsed);
-
-            System.out.println(Terminal.colorText("[INFO] "+timeElapsed+"ms: "+Terminal.getTime()+" Machine details request: "+obj.name, Terminal.ANSI_BLUE));
-
-        } catch (Exception e) {
-            String response = "Something went wrong";
-
-
-            exchange.sendResponseHeaders(200, response.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(response.getBytes());
-            os.close();       
-            Long timeElapsed = (System.currentTimeMillis()- timer);
-            if(context.show_gui){
-                context.textArea.append("[ERROR] "+timeElapsed+"ms: "+Terminal.getTime()+" Something went wrong while getting machine details: "+obj.name+"\n");
-                context.scrollToBottom();
-
-            }
-            context.addRequestTime(timeElapsed);
-
-            System.out.println(Terminal.colorText("[ERROR] "+timeElapsed+"ms: "+Terminal.getTime()+" Something went wrong while getting machine details: "+obj.name, Terminal.ANSI_RED));
-            e.printStackTrace();
- 
+        String requestAuthenticationHeader = "";
+        if(exchange.getRequestHeaders().containsKey("Authentication")){
+            requestAuthenticationHeader = exchange.getRequestHeaders().get("Authentication").get(0).toString();
         }
 
+        if(requestAuthenticationHeader.equals(context.getHTTPAuth()) || !context.enable_http_auth){
+
+            InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "utf-8");
+            BufferedReader br = new BufferedReader(isr);
+            Gson g = new Gson();
+            String value = br.readLine();
+            VMDetailsRequest obj = g.fromJson(value, VMDetailsRequest.class);
+
+            VM vm = new VM(obj.name);
+            try {
+                VMDOMProcessor.getDetails(vm);
+                checkVMState(vm);
+                String response = g.toJson(vm);
+
+                exchange.sendResponseHeaders(200, response.length());
+                OutputStream os = exchange.getResponseBody();
+
+                os.write(response.getBytes());
+                os.close();
+
+                Long timeElapsed = (System.currentTimeMillis() - timer);
+
+                if (context.show_gui) {
+                    context.textArea.append("[INFO] " + timeElapsed + "ms: " + Terminal.getTime()
+                            + " Machine details request: " + obj.name + "\n");
+                    context.scrollToBottom();
+
+                }
+                context.addRequestTime(timeElapsed);
+
+                System.out.println(Terminal.colorText(
+                        "[INFO] " + timeElapsed + "ms: " + Terminal.getTime() + " Machine details request: " + obj.name,
+                        Terminal.ANSI_BLUE));
+
+            } catch (Exception e) {
+                String response = "Something went wrong";
+
+                exchange.sendResponseHeaders(200, response.length());
+                OutputStream os = exchange.getResponseBody();
+                os.write(response.getBytes());
+                os.close();
+                Long timeElapsed = (System.currentTimeMillis() - timer);
+                if (context.show_gui) {
+                    context.textArea.append("[ERROR] " + timeElapsed + "ms: " + Terminal.getTime()
+                            + " Something went wrong while getting machine details: " + obj.name + "\n");
+                    context.scrollToBottom();
+
+                }
+                context.addRequestTime(timeElapsed);
+
+                System.out.println(Terminal.colorText(
+                        "[ERROR] " + timeElapsed + "ms: " + Terminal.getTime()
+                                + " Something went wrong while getting machine details: " + obj.name,
+                        Terminal.ANSI_RED));
+                e.printStackTrace();
+
+            }
+        }else{
+            context.textArea.append("[INFO] "+Terminal.getTime()+" Access Denied request \n");
+
+            HTTPAuthenticationHandler.returnAccessDeniedPage(exchange);
+        }
 
     }
 
-    private void checkVMState(VM inVm){
+    private void checkVMState(VM inVm) {
 
         ArrayList<VM> vmlist;
         try {
             vmlist = VMListProcessor.getVMdomainList();
             for (VM vm2 : vmlist) {
-                if(vm2.getDomain().equals(inVm.getDomain())){
-    
+                if (vm2.getDomain().equals(inVm.getDomain())) {
+
                     inVm.updateRunningState(vm2.isRunning());
                     break;
                 }
-                
+
             }
 
         } catch (IOException e) {

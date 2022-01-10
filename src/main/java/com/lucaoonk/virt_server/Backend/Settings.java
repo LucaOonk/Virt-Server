@@ -52,6 +52,16 @@ public class Settings {
                     if(entry.getKey().equals("show_gui")){
                         context.show_gui = (boolean) entry.getValue();
                     }
+                    if(entry.getKey().equals("skip_init")){
+                        context.skip_init = (boolean) entry.getValue();
+                    }
+                    if(entry.getKey().equals("enable_http_auth")){
+                        context.enable_http_auth = (boolean) entry.getValue();
+                    }
+                    if(entry.getKey().equals("custom_http_auth")){
+                        context.setHTTPAuth((String) entry.getValue());
+                        context.customHTTPAuth = true;
+                    }
                 }
             
                 // close reader
@@ -75,6 +85,12 @@ public class Settings {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("port", context.port);
         jsonObject.put("show_gui", context.show_gui);
+        jsonObject.put("skip_init", context.skip_init);
+        jsonObject.put("enable_http_auth", context.enable_http_auth);
+        if(context.customHTTPAuth){
+            jsonObject.put("custom_http_auth", context.getHTTPAuth());
+        }
+
 
         File location = new File(settingsFileLocation);
         location.getParentFile().mkdirs();
